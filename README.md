@@ -7,7 +7,7 @@ Detecting Confused Students using electroencephalogram (EEG) data from 10 colleg
 ### II. Project introduction
 **Objective**   
 The main goal of this project is to optimize the classification accuracy of predicting confused students using EEG signals.   
-You can also conduct the further studies from a different perspective, e.g., analyzing the data with the frequencies or predicting the Mediation/Attention of the person.
+You can also conduct the further studies from a different perspective, e.g., analyzing the data with the frequencies or predicting the mediation/attention of the person etc.
    
 **Motivation**    
 Online education has emerged as an important educational medium during the COVID-19 pandemic. Despite the advantages of online education, it lacks face-to-face settings, which makes it very difficult to analyze the students’ level of interaction, understanding, and confusion. This project makes use of EEG data for student confusion detection for the online course platform.   
