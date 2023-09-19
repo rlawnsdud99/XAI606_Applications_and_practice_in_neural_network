@@ -15,7 +15,7 @@ Improving the accuracy of EMG-based gesture recognition has significant implicat
 ### III. Dataset description   
 - Prepared videos are such as videos of the introduction of basic algebra or geometry, or the videos of Quantum Mechanics, and Stem Cell Research. Each video was about 2 minutes long and chopped the two-minute clip in the middle of a topic to make the videos more confusing.   
 - The students wore a single-channel wireless MindSet that measured activity over the frontal lobe. The MindSet measures the voltage between an electrode resting on the forehead and two electrodes (one ground and one reference) each in contact with an ear.   
-- After each session, the student rated his/her confusion level on a scale of 1-7, where one corresponded to the least confusing and seven corresponded to the most confusing. These labels if further normalized into labels of whether the students are confused or not. **This label is offered as 'Label' column of the .csv files.**
+- After each session, the student rated his/her confusion level on a scale of 1-7, where one corresponded to the least confusing and seven corresponded to the most confusing. These labels if further normalized into labels of whether the students are confused or not. **This label is offered as 'Label' column.**
   - #### Columns:   
     -&nbsp;SubjectID   
     -&nbsp;VideoID   
