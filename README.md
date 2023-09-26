@@ -14,7 +14,8 @@ Online education has emerged as an important educational medium during the COVID
 
 ### III. Dataset description   
 - Prepared videos are such as videos of the introduction of basic algebra or geometry, or the videos of Quantum Mechanics, and Stem Cell Research. Each video was about 2 minutes long and chopped the two-minute clip in the middle of a topic to make the videos more confusing.   
-- The students wore a single-channel wireless MindSet that measured activity over the frontal lobe. The MindSet measures the voltage between an electrode resting on the forehead and two electrodes (one ground and one reference) each in contact with an ear.   
+- The students wore a single-channel wireless MindSet that measured activity over the frontal lobe. The MindSet measures the voltage between an electrode resting on the forehead and two electrodes (one ground and one reference) each in contact with an ear.
+- These data are collected from ten students, each watching ten videos. Therefore, it can be seen as only 100 data points for these 12000+ rows. If you look at this way, then each data point consists of 120+ rows, which is sampled every 0.5 seconds (so each data point is a one minute video).
 - After each session, the student rated his/her confusion level on a scale of 1-7, where one corresponded to the least confusing and seven corresponded to the most confusing. These labels if further normalized into labels of whether the students are confused or not. **This label is offered as 'Label' column.** (label 0: not confused, label 1: confused)
   - #### Columns:   
     -&nbsp;SubjectID   
