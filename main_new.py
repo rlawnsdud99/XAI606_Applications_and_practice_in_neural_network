@@ -5,8 +5,10 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.utils.tensorboard import SummaryWriter
 from torch.optim.lr_scheduler import CosineAnnealingLR
-from model_definition import Simple1DCNN
+from model_definition import Simple1DCNN, SimpleMLP
 from sklearn.metrics import accuracy_score
+from sklearn.manifold import TSNE
+import matplotlib.pyplot as plt
 from sklearn.manifold import TSNE
 import matplotlib.pyplot as plt
 
@@ -81,7 +83,8 @@ def load_and_preprocess_data(subject_id, feature_columns):
 
 def initialize_model(input_dim, output_dim):
     # 모델 설정
-    model = Simple1DCNN(1, output_dim)
+    # model = Simple1DCNN(1, output_dim)
+    model = SimpleMLP(1, 32, output_dim)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=0.0007)
     return model, criterion, optimizer
@@ -96,6 +99,7 @@ def train_model(model, criterion, optimizer, scheduler, train_loader, epoch, wri
     for i, batch in enumerate(train_loader):
         x_batch, y_batch = batch
         x_batch = x_batch.unsqueeze(1)  # Adding a channel dimension
+        print(x_batch.shape)
         optimizer.zero_grad()
         output = model(x_batch)
         _, predicted_train = torch.max(output.data, 1)  # 여기 추가
@@ -163,13 +167,10 @@ def evaluate_test_model(model, test_loader, y_test, epoch, writer):
 
     # TensorBoard에 로깅
     writer.add_scalar("Test Accuracy", accuracy, epoch)
+    return accuracy
 
 
-from sklearn.manifold import TSNE
-import matplotlib.pyplot as plt
-
-
-def visualize_tsne(test_loader, X_test, y_test, model, subject_id):
+def visualize_tsne(test_loader, X_test, y_test, model, subject_id, acc_result):
     feature_outputs_list = []
 
     # 모델을 통과시켜 특징 추출
@@ -208,7 +209,7 @@ def visualize_tsne(test_loader, X_test, y_test, model, subject_id):
     scatter = axes[1].scatter(
         tsne_obj_model[:, 0], tsne_obj_model[:, 1], c=y_test, cmap="viridis"
     )
-    axes[1].set_title("t-SNE on Model Output")
+    axes[1].set_title(f"t-SNE on Model Output: Acc={acc_result:.2f}")
     axes[1].set_xlabel("Dimension 1")
     axes[1].set_ylabel("Dimension 2")
     axes[1].legend(
@@ -216,10 +217,9 @@ def visualize_tsne(test_loader, X_test, y_test, model, subject_id):
     )
 
     plt.tight_layout()
-    plt.show()
-
     # 파일로 저장
-    plt.savefig(f"./tsne_result/t-SNE_{subject_id}.png")
+    plt.savefig(f"./tsne_result/t-SNE_{subject_id}_{acc_result:.2f}%.png")
+    plt.show()
     plt.close()
 
 
@@ -227,7 +227,7 @@ if __name__ == "__main__":
     # TensorBoard writer 객체 생성
     writer = SummaryWriter()
 
-    subject_id = 9.0
+    subject_id = 0.0
     epoch = 50
     feature_columns = [
         "Delta",
@@ -261,10 +261,10 @@ if __name__ == "__main__":
     torch.save(model.state_dict(), f"./pth/simple_nn_model_{subject_id}.pth")
 
     # 테스트 데이터에 대한 평가
-    evaluate_test_model(model, test_loader, y_test, epoch, writer)
+    acc_result = evaluate_test_model(model, test_loader, y_test, epoch, writer)
 
     # t-SNE 시각화
-    visualize_tsne(test_loader, X_test, y_test, model, subject_id)
+    visualize_tsne(test_loader, X_test, y_test, model, subject_id, acc_result)
 
     # TensorBoard writer 닫기
     writer.close()
